@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090d">
+  <meta name="description" content="Password Generator Pro â€” cryptographically-secure passwords and passphrases with live strength and entropy analysis. 100% offline.">
+  <title>Password Generator Pro â€” Web Utility Suite</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar container">
+    <a class="brand" href="https://github.com/kasapdev/web-utility-suite" aria-label="Back to Web Utility Suite">
+      <span class="logo" aria-hidden="true">
+        <!-- key / shield icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="7.5" cy="15.5" r="4.5"></circle>
+          <path d="M10.7 12.3 21 2"></path>
+          <path d="m16 6 3 3"></path>
+          <path d="m13.5 9.5 2.5 2.5"></path>
+        </svg>
+      </span>
+      <span class="col" style="gap:0">
+        <span>Password Generator</span>
+        <span class="sub">Web Utility Suite</span>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <button class="btn btn--icon" data-shortcut-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+        <path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M9 13h6"></path>
+      </svg>
+    </button>
+    <button class="btn btn--icon" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="hero fade-in">
+      <h1>Generate a <span class="gradient-text">bullet-proof</span> password</h1>
+      <p class="secondary">Cryptographically-secure with <code>crypto.getRandomValues</code> â€” no <code>Math.random</code>, no servers, no tracking. Everything happens in your browser.</p>
+    </section>
+
+    <!-- Result -->
+    <section class="panel result-panel rise" aria-labelledby="result-label">
+      <div class="row between center wrap" style="gap:var(--space-3); margin-bottom:var(--space-4)">
+        <div class="segmented" role="tablist" aria-label="Generation mode">
+          <button id="mode-password" role="tab" aria-selected="true" class="is-active" data-mode="password">Password</button>
+          <button id="mode-passphrase" role="tab" aria-selected="false" data-mode="passphrase">Passphrase</button>
+        </div>
+        <span class="badge badge--info" id="pool-badge" aria-live="polite">â€” characters</span>
+      </div>
+
+      <h2 id="result-label" class="sr-only">Generated password</h2>
+      <output id="output" class="output mono" aria-live="polite" tabindex="0" role="textbox" aria-readonly="true"></output>
+
+      <div class="row between center wrap actions">
+        <div class="row gap-2 wrap">
+          <button class="btn btn--primary" id="copy-btn" title="Copy (Ctrl/Cmd+C)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy
+          </button>
+          <button class="btn" id="regen-btn" title="Regenerate (Space / Enter)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            Regenerate
+          </button>
+        </div>
+      </div>
+
+      <!-- Strength analysis -->
+      <div class="strength" aria-live="polite">
+        <div class="strength-head row between center">
+          <span class="strength-label" id="strength-label">â€”</span>
+          <span class="muted strength-entropy" id="entropy-readout">0 bits</span>
+        </div>
+        <div class="meter" id="meter" role="img" aria-label="Password strength meter">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <span class="stat-k">Entropy</span>
+            <span class="stat-v" id="stat-entropy">0 bits</span>
+          </div>
+          <div class="stat">
+            <span class="stat-k">Pool size</span>
+            <span class="stat-v" id="stat-pool">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-k">Length</span>
+            <span class="stat-v" id="stat-length">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-k">Crack time*</span>
+            <span class="stat-v" id="stat-crack">â€”</span>
+          </div>
+        </div>
+        <p class="crack-note muted">*Estimate assuming an offline attacker at 10 billion guesses/sec.</p>
+      </div>
+    </section>
+
+    <div class="grid main-grid">
+      <!-- Options -->
+      <section class="panel options-panel" aria-labelledby="opt-title">
+        <h2 id="opt-title" class="panel-title">Options</h2>
+
+        <!-- PASSWORD options -->
+        <div id="password-options">
+          <div class="field len-field">
+            <div class="row between center">
+              <label for="length">Length</label>
+              <span class="len-readout mono" id="length-readout">20</span>
+            </div>
+            <input type="range" id="length" min="4" max="64" value="20" step="1" aria-describedby="length-readout">
+            <div class="row between len-ticks muted"><span>4</span><span>64</span></div>
+          </div>
+
+          <div class="opt-list">
+            <div class="opt-row">
+              <label class="opt-text" for="opt-upper">Uppercase <span class="mono muted">Aâ€“Z</span></label>
+              <span class="switch"><input type="checkbox" id="opt-upper" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+            <div class="opt-row">
+              <label class="opt-text" for="opt-lower">Lowercase <span class="mono muted">aâ€“z</span></label>
+              <span class="switch"><input type="checkbox" id="opt-lower" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+            <div class="opt-row">
+              <label class="opt-text" for="opt-number">Numbers <span class="mono muted">0â€“9</span></label>
+              <span class="switch"><input type="checkbox" id="opt-number" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+            <div class="opt-row">
+              <label class="opt-text" for="opt-symbol">Symbols <span class="mono muted">!@#$â€¦</span></label>
+              <span class="switch"><input type="checkbox" id="opt-symbol" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+
+            <hr>
+
+            <div class="opt-row">
+              <label class="opt-text" for="opt-similar">Exclude similar <span class="mono muted">I l 1 O 0</span></label>
+              <span class="switch"><input type="checkbox" id="opt-similar"><span class="track"></span><span class="thumb"></span></span>
+            </div>
+            <div class="opt-row">
+              <label class="opt-text" for="opt-ambig">Exclude ambiguous <span class="mono muted">{ } [ ] ( ) / \\</span></label>
+              <span class="switch"><input type="checkbox" id="opt-ambig"><span class="track"></span><span class="thumb"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSPHRASE options -->
+        <div id="passphrase-options" hidden>
+          <div class="field len-field">
+            <div class="row between center">
+              <label for="words">Words</label>
+              <span class="len-readout mono" id="words-readout">4</span>
+            </div>
+            <input type="range" id="words" min="3" max="8" value="4" step="1" aria-describedby="words-readout">
+            <div class="row between len-ticks muted"><span>3</span><span>8</span></div>
+          </div>
+
+          <div class="field">
+            <label for="separator">Separator</label>
+            <select id="separator">
+              <option value="-" selected>Hyphen ( - )</option>
+              <option value=".">Dot ( . )</option>
+              <option value="_">Underscore ( _ )</option>
+              <option value=" ">Space (   )</option>
+              <option value="">None</option>
+            </select>
+          </div>
+
+          <div class="opt-list">
+            <div class="opt-row">
+              <label class="opt-text" for="opt-capitalize">Capitalize words</label>
+              <span class="switch"><input type="checkbox" id="opt-capitalize" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+            <div class="opt-row">
+              <label class="opt-text" for="opt-pp-number">Append a random number</label>
+              <span class="switch"><input type="checkbox" id="opt-pp-number" checked><span class="track"></span><span class="thumb"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <p class="inline-hint" id="inline-hint" hidden>Select at least one character set to generate a password.</p>
+      </section>
+
+      <!-- History -->
+      <section class="panel history-panel" aria-labelledby="hist-title">
+        <div class="row between center" style="margin-bottom:var(--space-4)">
+          <h2 id="hist-title" class="panel-title" style="margin:0">History</h2>
+          <button class="btn btn--ghost btn--sm" id="clear-history" hidden>Clear all</button>
+        </div>
+        <ul class="history-list" id="history-list" aria-live="polite"></ul>
+        <div class="empty" id="history-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"></path><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path><path d="M12 7v5l4 2"></path></svg>
+          <p>No passwords yet.<br>Your last 20 generations will appear here.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer container">Part of the <a href="https://github.com/kasapdev/web-utility-suite">Web Utility Suite</a> Â· MIT Licensed</footer>
+
+  <!-- Shortcuts help modal -->
+  <div class="modal-backdrop" id="help-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="row between center" style="margin-bottom:var(--space-4)">
+        <h2 id="help-title" style="margin:0">Keyboard shortcuts</h2>
+        <button class="btn btn--icon btn--ghost" id="help-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <ul class="shortcut-list">
+        <li><span>Generate a new password</span><span><kbd>Space</kbd> or <kbd>Enter</kbd></span></li>
+        <li><span>Copy current password</span><span><kbd>Ctrl/âŒ˜</kbd> + <kbd>C</kbd></span></li>
+        <li><span>Open this help dialog</span><span><kbd>?</kbd></span></li>
+        <li><span>Close dialog</span><span><kbd>Esc</kbd></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="assets/js/core.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

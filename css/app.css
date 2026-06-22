@@ -1,0 +1,173 @@
+/* =====================================================================
+   Password Generator Pro — app.css
+   App-specific styles. Inherits design tokens & components from base.css.
+   ===================================================================== */
+
+/* ---- Theme toggle icon swap (sun shows in dark, moon in light) ---- */
+.icon-moon { display: none; }
+[data-theme="light"] .icon-sun { display: none; }
+[data-theme="light"] .icon-moon { display: block; }
+
+/* ---- Hero ---- */
+.hero { margin-bottom: var(--space-6); max-width: 720px; }
+.hero h1 { margin-bottom: var(--space-2); }
+.hero p { color: var(--text-secondary); font-size: 1.02rem; margin: 0; }
+.hero code {
+  font-family: var(--font-mono); font-size: .88em;
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 1px 6px; border-radius: 6px; color: var(--text);
+}
+
+/* ---- Result panel ---- */
+.result-panel { margin-bottom: var(--space-6); }
+
+.output {
+  display: block; width: 100%;
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 1rem + 2.2vw, 2rem);
+  font-weight: 600; letter-spacing: .01em; line-height: 1.4;
+  word-break: break-all;
+  min-height: 2.6em;
+  padding: var(--space-5) var(--space-5);
+  margin-bottom: var(--space-4);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  transition: box-shadow var(--dur-2), border-color var(--dur-2);
+}
+.output:focus-visible { border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(99,102,241,.18); }
+.output:empty::before { content: "Click Generate to begin…"; color: var(--text-muted); font-weight: 500; }
+
+/* colorize char classes for readability */
+.output .c-num { color: var(--accent-cyan); }
+.output .c-sym { color: var(--accent-pink); }
+
+/* reveal animation on generate */
+.output.--pop { animation: popReveal .45s var(--ease); }
+@keyframes popReveal {
+  0%   { opacity: .35; transform: scale(.992); filter: blur(2px); }
+  100% { opacity: 1;   transform: none;        filter: none; }
+}
+
+.actions { margin-bottom: var(--space-6); }
+
+/* ---- Strength ---- */
+.strength { border-top: 1px solid var(--border); padding-top: var(--space-5); }
+.strength-head { margin-bottom: var(--space-3); }
+.strength-label { font-weight: 700; font-size: .95rem; transition: color var(--dur-2); }
+.strength-entropy { font-family: var(--font-mono); font-size: .85rem; }
+
+.meter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: var(--space-5); }
+.meter > span {
+  height: 8px; border-radius: 999px;
+  background: var(--surface-3);
+  transition: background var(--dur-3) var(--ease), box-shadow var(--dur-3);
+}
+/* strength level classes set on .meter */
+.meter.lvl-1 > span:nth-child(-n+1),
+.meter.lvl-2 > span:nth-child(-n+2),
+.meter.lvl-3 > span:nth-child(-n+3),
+.meter.lvl-4 > span:nth-child(-n+4),
+.meter.lvl-5 > span:nth-child(-n+5) { box-shadow: 0 0 10px -1px currentColor; }
+
+.meter.lvl-1 > span:nth-child(-n+1) { background: var(--danger); color: var(--danger); }
+.meter.lvl-2 > span:nth-child(-n+2) { background: #f97316; color: #f97316; }
+.meter.lvl-3 > span:nth-child(-n+3) { background: var(--warning); color: var(--warning); }
+.meter.lvl-4 > span:nth-child(-n+4) { background: #84cc16; color: #84cc16; }
+.meter.lvl-5 > span:nth-child(-n+5) { background: var(--success); color: var(--success); }
+
+.lbl-1 { color: var(--danger); }
+.lbl-2 { color: #f97316; }
+.lbl-3 { color: var(--warning); }
+.lbl-4 { color: #84cc16; }
+.lbl-5 { color: var(--success); }
+
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+.stat {
+  display: flex; flex-direction: column; gap: 4px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
+}
+.stat-k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); font-weight: 600; }
+.stat-v { font-family: var(--font-mono); font-weight: 600; font-size: .95rem; }
+.crack-note { font-size: 11px; margin: var(--space-3) 0 0; }
+
+/* ---- Main grid (options + history) ---- */
+.main-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+.panel-title { font-size: 1.1rem; margin-bottom: var(--space-5); }
+
+/* ---- Options ---- */
+.len-field { margin-bottom: var(--space-5); }
+.len-readout {
+  font-weight: 700; font-size: 1rem; min-width: 2.4ch; text-align: right;
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 8px; color: var(--brand-400);
+}
+.len-ticks { font-size: 11px; margin-top: 2px; }
+
+.opt-list { display: flex; flex-direction: column; gap: 2px; }
+.opt-row {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-3) 0;
+}
+.opt-text { font-size: .92rem; font-weight: 600; color: var(--text); cursor: pointer; }
+.opt-text .mono { font-weight: 500; font-size: .82em; }
+
+#passphrase-options .field { margin-bottom: var(--space-5); }
+
+.inline-hint {
+  margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4);
+  background: var(--warning-soft); color: var(--warning);
+  border-radius: var(--radius-md); font-size: .85rem; font-weight: 600;
+}
+
+/* ---- History ---- */
+.history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.history-item {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  animation: rise .35s var(--ease) both;
+}
+.history-item:hover { border-color: var(--border-strong); }
+.hi-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.hi-value {
+  font-family: var(--font-mono); font-size: .9rem; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text);
+}
+.hi-meta { font-size: 11px; color: var(--text-muted); display: flex; gap: var(--space-2); align-items: center; }
+.hi-meta .dot-sep { opacity: .5; }
+.hi-actions { display: flex; gap: 2px; flex: none; }
+.hi-btn {
+  width: 30px; height: 30px; flex: none; display: grid; place-items: center;
+  background: transparent; border: 1px solid transparent; border-radius: 8px;
+  color: var(--text-muted); cursor: pointer;
+  transition: color var(--dur-1), background var(--dur-1), border-color var(--dur-1);
+}
+.hi-btn:hover { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+.hi-btn.is-on { color: var(--brand-400); }
+.hi-btn.danger:hover { color: var(--danger); }
+.hi-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(99,102,241,.4); }
+.hi-btn svg { width: 15px; height: 15px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 860px) {
+  .main-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .actions .btn { flex: 1; }
+}
+@media (max-width: 380px) {
+  .output { padding: var(--space-4); }
+}
+
+/* ---- Shortcuts modal list ---- */
+.shortcut-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.shortcut-list li {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-3) 0; border-bottom: 1px solid var(--border); font-size: .92rem;
+}
+.shortcut-list li:last-child { border-bottom: none; }
+.shortcut-list li > span:last-child { display: flex; gap: 6px; align-items: center; color: var(--text-secondary); white-space: nowrap; }
