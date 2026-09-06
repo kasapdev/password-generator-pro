@@ -13,8 +13,7 @@
   var SETS = {
     upper:  'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     lower:  'abcdefghijklmnopqrstuvwxyz',
-    number: '0123456789',
-    symbol: '!@#$%^&*-_=+?.,;:'
+    number: '0123456789'
   };
   // Symbols available before the "ambiguous" filter removes the tricky ones.
   var SYMBOL_FULL = '!@#$%^&*()-_=+[]{};:,.<>/?\\|~`\'"';
