@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08090d">
-  <meta name="description" content="Password Generator Pro â€” cryptographically-secure passwords and passphrases with live strength and entropy analysis. 100% offline.">
-  <title>Password Generator Pro â€” Web Utility Suite</title>
+  <meta name="description" content="Password Generator Pro — cryptographically-secure passwords and passphrases with live strength and entropy analysis. 100% offline.">
+  <title>Password Generator Pro — Web Utility Suite</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="css/app.css">
@@ -48,7 +48,7 @@
   <main class="container">
     <section class="hero fade-in">
       <h1>Generate a <span class="gradient-text">bullet-proof</span> password</h1>
-      <p class="secondary">Cryptographically-secure with <code>crypto.getRandomValues</code> â€” no <code>Math.random</code>, no servers, no tracking. Everything happens in your browser.</p>
+      <p class="secondary">Cryptographically-secure with <code>crypto.getRandomValues</code> — no <code>Math.random</code>, no servers, no tracking. Everything happens in your browser.</p>
     </section>
 
     <!-- Result -->
@@ -58,7 +58,7 @@
           <button id="mode-password" role="tab" aria-selected="true" class="is-active" data-mode="password">Password</button>
           <button id="mode-passphrase" role="tab" aria-selected="false" data-mode="passphrase">Passphrase</button>
         </div>
-        <span class="badge badge--info" id="pool-badge" aria-live="polite">â€” characters</span>
+        <span class="badge badge--info" id="pool-badge" aria-live="polite">— characters</span>
       </div>
 
       <h2 id="result-label" class="sr-only">Generated password</h2>
@@ -80,7 +80,7 @@
       <!-- Strength analysis -->
       <div class="strength" aria-live="polite">
         <div class="strength-head row between center">
-          <span class="strength-label" id="strength-label">â€”</span>
+          <span class="strength-label" id="strength-label">—</span>
           <span class="muted strength-entropy" id="entropy-readout">0 bits</span>
         </div>
         <div class="meter" id="meter" role="img" aria-label="Password strength meter">
@@ -101,7 +101,7 @@
           </div>
           <div class="stat">
             <span class="stat-k">Crack time*</span>
-            <span class="stat-v" id="stat-crack">â€”</span>
+            <span class="stat-v" id="stat-crack">—</span>
           </div>
         </div>
         <p class="crack-note muted">*Estimate assuming an offline attacker at 10 billion guesses/sec.</p>
@@ -126,19 +126,19 @@
 
           <div class="opt-list">
             <div class="opt-row">
-              <label class="opt-text" for="opt-upper">Uppercase <span class="mono muted">Aâ€“Z</span></label>
+              <label class="opt-text" for="opt-upper">Uppercase <span class="mono muted">A–Z</span></label>
               <span class="switch"><input type="checkbox" id="opt-upper" checked><span class="track"></span><span class="thumb"></span></span>
             </div>
             <div class="opt-row">
-              <label class="opt-text" for="opt-lower">Lowercase <span class="mono muted">aâ€“z</span></label>
+              <label class="opt-text" for="opt-lower">Lowercase <span class="mono muted">a–z</span></label>
               <span class="switch"><input type="checkbox" id="opt-lower" checked><span class="track"></span><span class="thumb"></span></span>
             </div>
             <div class="opt-row">
-              <label class="opt-text" for="opt-number">Numbers <span class="mono muted">0â€“9</span></label>
+              <label class="opt-text" for="opt-number">Numbers <span class="mono muted">0–9</span></label>
               <span class="switch"><input type="checkbox" id="opt-number" checked><span class="track"></span><span class="thumb"></span></span>
             </div>
             <div class="opt-row">
-              <label class="opt-text" for="opt-symbol">Symbols <span class="mono muted">!@#$â€¦</span></label>
+              <label class="opt-text" for="opt-symbol">Symbols <span class="mono muted">!@#$…</span></label>
               <span class="switch"><input type="checkbox" id="opt-symbol" checked><span class="track"></span><span class="thumb"></span></span>
             </div>
 
@@ -207,7 +207,7 @@
     </div>
   </main>
 
-  <footer class="app-footer container">Part of the <a href="https://github.com/kasapdev/web-utility-suite">Web Utility Suite</a> Â· MIT Licensed</footer>
+  <footer class="app-footer container">Part of the <a href="https://github.com/kasapdev/web-utility-suite">Web Utility Suite</a> · MIT Licensed</footer>
 
   <!-- Shortcuts help modal -->
   <div class="modal-backdrop" id="help-modal" hidden>
@@ -220,7 +220,7 @@
       </div>
       <ul class="shortcut-list">
         <li><span>Generate a new password</span><span><kbd>Space</kbd> or <kbd>Enter</kbd></span></li>
-        <li><span>Copy current password</span><span><kbd>Ctrl/âŒ˜</kbd> + <kbd>C</kbd></span></li>
+        <li><span>Copy current password</span><span><kbd>Ctrl/⌘</kbd> + <kbd>C</kbd></span></li>
         <li><span>Open this help dialog</span><span><kbd>?</kbd></span></li>
         <li><span>Close dialog</span><span><kbd>Esc</kbd></span></li>
       </ul>
