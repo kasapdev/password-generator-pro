@@ -480,8 +480,13 @@
   }
 
   function maskValue(value) {
-    if (value.length <= 4) return '•'.repeat(value.length);
-    return value.slice(0, 2) + '•'.repeat(Math.max(4, value.length - 4)) + value.slice(-2);
+    // Below 8 characters, showing the first/last two would reveal 50-80% of
+    // the value (e.g. only 1 of 5 characters stays hidden for a 5-character
+    // password, since slice(0,2) and slice(-2) already cover 4 of the 5) --
+    // mask the whole thing instead of padding the dot count and leaking most
+    // of a short secret in what's supposed to be the "masked" history view.
+    if (value.length < 8) return '•'.repeat(value.length);
+    return value.slice(0, 2) + '•'.repeat(value.length - 4) + value.slice(-2);
   }
 
   function renderHistory() {
